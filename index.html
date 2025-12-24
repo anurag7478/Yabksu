@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Millionaire YT UC Store - Premium BGMI Partner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { 
+            font-family:'Poppins',sans-serif; 
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0d2e 50%, #2d1b69 100%);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120,219,255,0.3) 0%, transparent 50%);
+            color:#fff; overflow-x:hidden; 
+            position: relative;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.8" fill="rgba(255,255,255,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none; z-index: 9999;
+        }
+        
+        .container { max-width:420px; margin:0 auto; padding:20px; min-height:100vh; display:flex; flex-direction:column; position: relative; z-index: 1; }
+        
+        /* Premium BGMI Header */
+        .header { 
+            text-align:center; margin-bottom:30px; 
+            background: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(30px); 
+            border-radius: 25px; 
+            padding: 25px; 
+            border: 2px solid rgba(255,215,0,0.4); 
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+        }
+        .header::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        .logos-row {
+            display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;
+        }
+        .krafton-logo, .bgmi-partner-logo {
+            width: 45px; height: 45px; border-radius: 12px; box-shadow: 0 10px 25px rgba(255,215,0,0.4);
+            animation: premiumFloat 3s ease-in-out infinite;
+        }
+        .krafton-logo { animation-delay: 0s; }
+        .bgmi-partner-logo { animation-delay: 1s; }
+        .logo { 
+            font-family:'Orbitron',monospace; font-size:36px; font-weight:900; 
+            background: linear-gradient(45deg, #00d4ff, #ffd700, #ff4d4d, #00ff88);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; 
+            margin-bottom:5px; animation: bgmiGlow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 40px rgba(0,212,255,0.8);
+            position: relative; z-index: 2;
+        }
+        .premium-badge { 
+            background: linear-gradient(135deg, #ffd700, #ff6b35, #00d4ff); 
+            color: #000; padding: 6px 16px; border-radius: 25px; 
+            font-size: 12px; font-weight: 800; display: inline-block; 
+            animation: pulseGlow 1.5s infinite; 
+            box-shadow: 0 8px 25px rgba(255,215,0,0.6), inset 0 1px 0 rgba(255,255,255,0.3);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .tagline { color:#ddd; font-size:15px; font-weight:400; margin-top:12px; }
+        
+        /* Enhanced Progress Bar */
+        .progress-container { 
+            display:flex; justify-content:space-between; margin-bottom:35px; position:relative; 
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); padding: 15px; border-radius: 20px;
+            border: 2px solid rgba(255,215,0,0.3); box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .progress-step { 
+            width:35px; height:35px; border-radius:50%; background:rgba(255,255,255,0.1); 
+            display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; 
+            position:relative; z-index:2; transition:all 0.4s ease; 
+            border: 3px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+        }
+        .progress-step.active { 
+            background: linear-gradient(45deg,#00d4ff,#ffd700); 
+            box-shadow:0 0 30px rgba(0,212,255,1), inset 0 0 20px rgba(255,255,255,0.3); 
+            color: #000; border-color: #ffd700; transform: scale(1.1);
+        }
+        .progress-step.completed { 
+            background: linear-gradient(45deg,#00ff88,#00d4ff); 
+            color:#000; box-shadow:0 0 30px rgba(0,255,136,1); 
+            transform: scale(1.1);
+        }
+        .progress-line { 
+            height:4px; background:rgba(255,255,255,0.1); position:absolute; top:20px; 
+            width:calc(33.33% - 17px); z-index:1; transition:all 0.4s ease; 
+            border-radius: 3px; backdrop-filter: blur(10px);
+        }
+        .progress-line.active { 
+            background: linear-gradient(90deg,#00d4ff,#ffd700,#00ff88); 
+            box-shadow: 0 0 20px rgba(0,212,255,0.8); 
+        }
+        
+        /* Steps */
+        .step { display:none; animation:premiumSlideIn 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .step.active { display:block; }
+        @keyframes premiumSlideIn { from { opacity:0; transform:translateX(30px) scale(0.95); } to { opacity:1; transform:translateX(0) scale(1); } }
+        
+        .step-content { 
+            background: rgba(0,0,0,0.7); 
+            backdrop-filter:blur(35px); 
+            border-radius:30px; padding:40px 30px; 
+            border:3px solid rgba(255,215,0,0.2); 
+            box-shadow:0 30px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15);
+            position: relative; overflow: hidden;
+        }
+        .step-content::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+        .step-title { 
+            font-family:'Orbitron',monospace; font-size:28px; font-weight:900; text-align:center; 
+            margin-bottom:30px; 
+            background: linear-gradient(45deg,#00d4ff,#ffd700,#ff4d4d,#00ff88);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; 
+            text-shadow: 0 0 30px rgba(0,212,255,0.8); position: relative; z-index: 2;
+        }
+        
+        /* Premium UC Packs with Icons */
+        .packs-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:30px; }
+        .pack-card { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(0,0,0,0.5)); 
+            border-radius:25px; padding:30px 20px; text-align:center; cursor:pointer; 
+            transition:all 0.5s cubic-bezier(0.25,0.46,0.45,0.94); 
+            border:3px solid rgba(0,212,255,0.4); position: relative; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .pack-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s; border-radius: 25px;
+        }
+        .pack-card:hover::before { left: 100%; }
+        .pack-card:hover { 
+            transform: translateY(-12px) scale(1.05); 
+            border-color:#ffd700 !important; 
+            box-shadow:0 30px 60px rgba(0,212,255,0.5), 0 0 50px rgba(255,215,0,0.4);
+        }
+        .pack-card.selected { 
+            border-color:#ffd700 !important; 
+            background: linear-gradient(135deg,rgba(255,215,0,0.3),rgba(0,212,255,0.25)); 
+            transform: translateY(-12px) scale(1.05) !important; 
+            box-shadow:0 35px 70px rgba(255,215,0,0.6), 0 0 60px rgba(0,212,255,0.8) !important;
+        }
+        .uc-icon { 
+            width: 65px; height: 65px; margin: 0 auto 15px; 
+            filter: drop-shadow(0 8px 20px rgba(0,212,255,0.6));
+            animation: iconFloat 2s ease-in-out infinite;
+        }
+        .pack-uc { font-family:'Orbitron',monospace; font-size:26px; font-weight:900; color:#00ff88; margin-bottom:10px; text-shadow: 0 0 15px rgba(0,255,136,0.8); }
+        .pack-price { font-size:22px; font-weight:900; color:#ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.8); }
+        
+        /* Enhanced Form */
+        .form-group { margin-bottom:30px; }
+        .form-label { 
+            display:block; font-weight:800; margin-bottom:15px; color:#fff; 
+            font-size: 16px; text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        .form-input { 
+            width:100%; padding:20px; 
+            background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(0,0,0,0.4)); 
+            border:3px solid rgba(0,212,255,0.5); border-radius:20px; color:#fff; font-size:17px; 
+            transition:all 0.4s ease; backdrop-filter: blur(15px); font-weight: 600;
+            font-family: 'Orbitron', monospace;
+        }
+        .form-input:focus { 
+            outline:none; border-color:#ffd700; 
+            box-shadow:0 0 35px rgba(255,215,0,0.8), inset 0 0 20px rgba(255,255,255,0.1); 
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(0,0,0,0.3));
+            transform: scale(1.02);
+        }
+        .form-input::placeholder { color:#bbb; }
+        .selected-pack-display {
+            background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,212,255,0.2)); 
+            padding: 20px; border-radius: 20px; border: 2px solid rgba(0,255,136,0.5);
+            text-align: center; font-size: 20px; font-weight: 800; color: #00ff88;
+            box-shadow: 0 15px 35px rgba(0,255,136,0.3);
+        }
+        
+        /* Premium Payment */
+        .payment-section { text-align:center; }
+        .upi-qr { 
+            width:220px; height:220px; margin:30px auto; border-radius:25px; 
+            box-shadow:0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(255,215,0,0.5); 
+            border: 4px solid rgba(255,215,0,0.5); display:none; backdrop-filter: blur(10px);
+        }
+        .upi-id { 
+            font-family:'Orbitron',monospace; font-size:22px; font-weight:900; color:#ffd700; 
+            word-break:break-all; background:rgba(0,0,0,0.8); padding:20px; border-radius:20px; 
+            margin:25px 0; display:none; text-shadow: 0 0 20px rgba(255,215,0,0.8);
+            border: 2px solid rgba(255,215,0,0.4); box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        
+        /* Premium Upload */
+        .file-upload-area { 
+            border:4px dashed rgba(0,212,255,0.8); border-radius:25px; padding:50px 30px; 
+            text-align:center; transition:all 0.4s ease; cursor:pointer; 
+            background: linear-gradient(145deg, rgba(0,212,255,0.15), rgba(0,0,0,0.4)); 
+            margin:30px 0; backdrop-filter: blur(20px); position: relative;
+            font-family: 'Orbitron', monospace;
+        }
+        .file-upload-area:hover { 
+            background: linear-gradient(145deg, rgba(0,212,255,0.25), rgba(0,0,0,0.5)); 
+            border-color:#ffd700; transform: translateY(-5px);
+        }
+        .file-upload-area.dragover { 
+            border-color:#00ff88 !important; 
+            background: linear-gradient(145deg, rgba(0,255,136,0.4), rgba(0,0,0,0.5)) !important; 
+            transform: scale(1.02);
+        }
+        #screenshotPreview { 
+            max-width:100%; max-height:250px; border-radius:20px; margin-top:25px; 
+            display:none; box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(255,215,0,0.4); 
+        }
+        
+        /* Premium Buttons */
+        .btn { 
+            padding:22px 40px; border:none; border-radius:20px; font-size:17px; font-weight:800; 
+            cursor:pointer; transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94); width:100%; 
+            margin-bottom:15px; font-family: 'Orbitron', monospace; position: relative; overflow: hidden;
+            text-transform: uppercase; letter-spacing: 1.5px; font-size: 16px;
+        }
+        .btn-primary { 
+            background: linear-gradient(45deg,#ffd700,#ff6b35,#ffd700); color:#000; 
+            box-shadow:0 20px 45px rgba(255,215,0,0.6); 
+        }
+        .btn-primary:hover { 
+            transform:translateY(-5px) scale(1.05); 
+            box-shadow:0 30px 60px rgba(255,215,0,0.8); 
+        }
+        .btn-secondary { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(0,0,0,0.4)); 
+            color:#fff; border:3px solid rgba(0,212,255,0.6); backdrop-filter: blur(15px);
+        }
+        .btn-secondary:hover { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.25), rgba(0,0,0,0.3)); 
+            border-color:#ffd700; transform:translateY(-3px) scale(1.02); 
+        }
+        .btn:disabled { opacity:0.6; cursor:not-allowed; transform:none !important; }
+        
+        /* Premium Success */
+        .success-screen { text-align:center; padding:80px 30px; }
+        .success-icon { 
+            font-size:110px; color:#00ff88; margin-bottom:30px; 
+            animation:bouncePremium 1.8s infinite; 
+            text-shadow: 0 0 50px rgba(0,255,136,1); filter: drop-shadow(0 0 30px rgba(0,255,136,0.8));
+        }
+        .success-title { 
+            font-size:38px; font-weight:900; margin-bottom:25px; color:#00ff88; 
+            font-family: 'Orbitron', monospace; text-shadow: 0 0 30px rgba(0,255,136,0.8);
+        }
+        
+        /* Premium Animations */
+        @keyframes bgmiGlow { 0% { filter: hue-rotate(0deg) brightness(1); } 100% { filter: hue-rotate(360deg) brightness(1.3); } }
+        @keyframes pulseGlow { 0%,100% { transform:scale(1); box-shadow:0 8px 25px rgba(255,215,0,0.6); } 50% { transform:scale(1.08); box-shadow:0 15px 40px rgba(255,215,0,0.9); } }
+        @keyframes premiumFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        @keyframes iconFloat { 0%,100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(5deg); } }
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes bouncePremium { 0%,20%,50%,80%,100% { transform:translateY(0); } 40% { transform:translateY(-20px); } 60% { transform:translateY(-10px); } }
+        
+        @media (max-width:480px) { 
+            .container { padding:15px; } 
+            .logo { font-size:32px; } 
+            .step-content { padding:35px 25px; } 
+            .packs-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Premium Header with Logos -->
+        <div class="header">
+            <div class="logos-row">
+                <!-- KRAFTON LOGO - AUTOMATIC (NO UPLOAD) -->
+                <img src="https://seeklogo.com/images/K/krafton-logo-7DA4F4A7A7-seeklogo.com.png" alt="Krafton" class="krafton-logo">
+                <!-- BGMI Partner Badge -->
+                <div class="bgmi-partner-logo" style="background: linear-gradient(135deg, #ffd700, #00d4ff); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; color:#000;">BGMI</div>
+            </div>
+            <h1 class="logo">Millionaire YT UC</h1>
+            <div class="premium-badge">PREMIUM PARTNER</div>
+            <p class="tagline">⚡ Instant Delivery • 100% Safe • 24/7 Premium Support</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-line" id="line1"></div>
+            <div class="progress-step active" data-step="1">1</div>
+            <div class="progress-line" id="line2"></div>
+            <div class="progress-step" data-step="2">2</div>
+            <div class="progress-line" id="line3"></div>
+            <div class="progress-step" data-step="3">3</div>
+            <div class="progress-line" id="line4"></div>
+            <div class="progress-step" data-step="4">4</div>
+        </div>
+        
+        <!-- STEP 1: Premium UC Packs -->
+        <div id="step1" class="step active">
+            <div class="step-content">
+                <h2 class="step-title">Select Premium UC Pack</h2>
+                <div class="packs-grid" id="packsGrid">
+                    <div class="pack-card" data-uc="60" data-price="40">
+                        <!-- UC LOGO - UPLOAD KARNA HAI -->
+                        <img src="uc-logo.png" class="uc-icon" alt="UC">
+                        <div class="pack-uc">60 UC</div>
+                        <div class="pack-price">₹40</div>
+                    </div>
+                    <div class="pack-card" data-uc="1900" data-price="950">
+                        <img src="uc-logo.png" class="uc-icon" alt="UC">
+                        <div class="pack-uc">1900 UC</div>
+                        <div class="pack-price">₹950</div>
+                    </div>
+                    <div class="pack-card" data-uc="3850" data-price="1540">
+                        <img src="uc-logo.png" class="uc-icon" alt="UC">
+                        <div class="pack-uc">3850 UC</div>
+                        <div class="pack-price">₹1540</div>
+                    </div>
+                    <div class="pack-card" data-uc="8100" data-price="2430">
+                        <img src="uc-logo.png" class="uc-icon" alt="UC">
+                        <div class="pack-uc">8100 UC</div>
+                        <div class="pack-price">₹2430</div>
+                    </div>
+                    <div class="pack-card" data-uc="16200" data-price="4100">
+                        <img src="uc-logo.png" class="uc-icon" alt="UC">
+                        <div class="pack-uc">16200 UC</div>
+                        <div class="pack-price">₹4100</div>
+                    </div>
+                    <div class="pack-card" data-uc="32400" data-price="7800">
+                        <img src="uc-logo.png" class="uc-icon" alt="UC">
+                        <div class="pack-uc">32400 UC</div>
+                        <div class="pack-price">₹7800</div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="next1" disabled>Continue →</button>
+            </div>
+        </div>
+        
+        <!-- STEP 2: Enhanced Details -->
+        <div id="step2" class="step">
+            <div class="step-content">
+                <h2 class="step-title">Player Details</h2>
+                <div class="form-group">
+                    <label class="form-label">Selected Premium Pack</label>
+                    <div class="selected-pack-display" id="selectedPackDisplay">-</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">BGMI UID</label>
+                    <input type="tel" class="form-input" id="uid" placeholder="Enter 10-digit UID" maxlength="10">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">In-Game Name (IGN)</label>
+                    <input type="text" class="form-input" id="ign" placeholder="Your BGMI IGN">
+                </div>
+                <button type="button" class="btn btn-secondary" id="back2">← Back</button>
+                <button type="button" class="btn btn-primary" id="next2" disabled>Next: Secure Payment →</button>
+            </div>
+        </div>
+        
+        <!-- STEP 3: Premium Payment -->
+        <div id="step3" class="step">
+            <div class="step-content">
+                <h2 class="step-title">Secure Payment</h2>
+                <div class="payment-section">
+                    <!-- UPI QR - UPLOAD KARNA HAI -->
+                    <img src="upi-qr.jpg" alt="UPI QR" class="upi-qr" id="upiQr">
+                    <div class="upi-id" id="upiId">adiptl@ptyes</div>
+                    <p style="color:#ffd700; font-size:20px; margin:30px 0; font-weight: 800;">
+                        Pay <strong id="paymentAmount">₹0</strong> via UPI / QR Scan
+                    </p>
+                    <p style="color:#ddd; font-size:15px; font-style: italic;">Upload payment proof after successful transaction</p>
+                </div>
+                <div class="file-upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt" style="font-size:65px; color:#ffd700; margin-bottom:25px;"></i>
+                    <p style="font-size:20px; font-weight: 800;">📸 Upload Screenshot</p>
+                    <p style="color:#ddd; font-size:15px;">PNG/JPG • Max 5MB</p>
+                    <input type="file" id="screenshot" accept="image/*" style="display:none;">
+                    <img id="screenshotPreview" alt="Preview">
+                </div>
+                <button type="button" class="btn btn-secondary" id="back3">← Back</button>
+                <button type="button" class="btn btn-primary" id="submitBtn" disabled>🚀 Confirm Premium Order</button>
+            </div>
+        </div>
+        
+        <!-- STEP 4: Premium Success -->
+        <div id="step4" class="step">
+            <div class="step-content success-screen">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <h2 class="success-title">Premium Order Confirmed!</h2>
+                <p style="color:#eee; font-size:20px; margin-bottom:30px;">
+                    ✅ Screenshot sent successfully<br>
+                    ⚡ Premium UC delivery within 5-10 minutes
+                </p>
+                <p style="color:#00ff88; font-size:18px; margin-bottom:35px;">
+                    <i class="fas fa-whatsapp"></i> Premium WhatsApp updates
+                </p>
+                <button type="button" class="btn btn-primary" onclick="location.reload()">New Premium Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const adminNumbers = ['6264817544'];
+        let currentStep = 1;
+        let selectedPack = null;
+        let screenshotFile = null;
+
+        updateProgress();
+        
+        document.querySelectorAll('.pack-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedPack = { uc: this.dataset.uc, price: this.dataset.price };
+                document.getElementById('next1').disabled = false;
+            });
+        });
+
+        document.getElementById('next1').onclick = function() {
+            if (selectedPack) {
+                document.getElementById('selectedPackDisplay').innerHTML = 
+                    `<i class="fas fa-crown" style="color:#ffd700; margin-right:10px;"></i>${selectedPack.uc} UC PREMIUM - ₹${selectedPack.price}`;
+                showStep(2);
+            }
+        };
+
+        document.getElementById('uid').oninput = validateStep2;
+        document.getElementById('ign').oninput = validateStep2;
+        function validateStep2() {
+            const uid = document.getElementById('uid').value;
+            const ign = document.getElementById('ign').value;
+            document.getElementById('next2').disabled = !(uid.length === 10 && ign.trim());
+        }
+
+        document.getElementById('next2').onclick = function() {
+            document.getElementById('paymentAmount').textContent = `₹${selectedPack.price}`;
+            document.getElementById('upiQr').style.display = 'block';
+            document.getElementById('upiId').style.display = 'block';
+            showStep(3);
+        };
+
+        document.getElementById('back2').onclick = () => showStep(1);
+        document.getElementById('back3').onclick = () => showStep(2);
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('screenshot');
+        const preview = document.getElementById('screenshotPreview');
+        const submitBtn = document.getElementById('submitBtn');
+
+        uploadArea.onclick = () => fileInput.click();
+        fileInput.onchange = handleFile;
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+        });
+
+        uploadArea.ondrop = (e) => {
+            fileInput.files = e.dataTransfer.files;
+            handleFile({ target: fileInput });
+        };
+
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/') && file.size < 5*1024*1024) {
+                screenshotFile = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    submitBtn.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        submitBtn.onclick = function() {
+            if (!screenshotFile || !selectedPack) return;
+            
+            this.disabled = true;
+            this.textContent = 'Sending Premium Order...';
+
+            const uid = document.getElementById('uid').value.trim();
+            const ign = document.getElementById('ign').value.trim();
+            
+            const message = `*👑 PREMIUM UC ORDER 👑*%0A%0A` +
+                          `*💎 Millionaire YT Premium UC Store*%0A%0A` +
+                          `*📦 ${selectedPack.uc} PREMIUM UC*%0A` +
+                          `*💰 ₹${selectedPack.price}*%0A%0A` +
+                          `*🆔 BGMI UID:* ${uid}%0A` +
+                          `*🎮 IGN:* ${ign}%0A%0A` +
+                          `*💳 Payment:* ✅ Screenshot Verified%0A` +
+                          `*⏰ Premium Time:* ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}%0A%0A` +
+                          `*🔥 PRIORITY:* Verify → Instant UC Delivery%0A` +
+                          `*⚡ Premium Delivery:* 5-10 mins`;
+
+            adminNumbers.forEach(num => {
+                const whatsappUrl = `https://wa.me/91${num}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+
+            showStep(4);
+        };
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            currentStep = step;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.toggle('completed', index < currentStep - 1);
+                step.classList.toggle('active', index === currentStep - 1);
+            });
+            document.querySelectorAll('.progress-line').forEach((line, index) => {
+                line.classList.toggle('active', index < currentStep - 1);
+            });
+        }
+    </script>
+</body>
+</html>
